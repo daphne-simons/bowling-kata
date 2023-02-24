@@ -1,27 +1,54 @@
-// Score 64 (simple game):
-// const frames = [
-//   [2, 0], [4, 2], [6, 0], [2, 4], [1, 5], [7, 0], [5, 2], [7, 0], [2, 6], [8, 1]
-// ]
-// Score 71 (with spares):
-// const frames = [
-//   [6, 1], [4, 0], [6, 4], [2, 7], [3, 5], [5, 0], [5, 5], [0, 0], [1, 6], [7, 2]
-// ]
-// Score 104 (with spares and strikes):
-// const frames = [
-//   [6, 4], [8, 0], [10, 0], [2, 7], [5, 5], [4, 0], [10, 0], [2, 1], [2, 6], [4, 4]
-// ]
-//
-// Score 119 (with spares, strikes and a double strike):
-// const frames = [
-//   [1, 2], [6, 4], [5, 4], [10, 0], [7, 2], [10, 0], [10, 0], [5, 2], [7, 0], [4, 4]
-// ]
-//
-// Score 141 (includes a strike on the last frame):
-// const frames = [
-//   [1, 2], [6, 4], [5, 4], [10, 0], [7, 2], [10, 0], [10, 0], [5, 2], [7, 0], [10, 10, 10]
-// ]
-//
-// Score 300 (perfect game):
-// const frames = [
-//   [10, 0], [10, 0], [10, 0], [10, 0], [10, 0], [10, 0], [10, 0], [10, 0], [10, 0], [10, 10, 10]
-// ]
+
+///basic sum
+function getscore(arr){
+    let total=0//total score
+    for(let i=0;i<arr.length;i++){
+        j=arr[i]//value of frame
+        let s=false//boolean value to see if strike or not
+        let add=0
+
+        if(j[0]==10){//if strike
+            s=true
+            add+=strike(arr,i)
+        }
+        let bowl=''
+        if(j[0]+j[1]<10){//if normal bowl
+            add+=nomral(arr,i)
+            bowl='normal'
+        }
+        if(j[0]+j[1]==10&&i<arr.length-1&&!s){//if spare
+            add+=spare(arr,i)
+        }
+
+        total+=add
+    }
+return total
+}
+
+function nomral(arr,idx){
+    return arr[idx][0]+arr[idx][1]
+}
+
+function spare(arr,idx){
+    return arr[idx][0]+arr[idx][1]+arr[idx+1][0]
+}
+
+function strike(arr,idx){
+    if(idx==arr.length-1){
+        return 30//if the final bowl is a strike
+    }
+    if(arr[idx+1][0]==10){
+        return doubleStrike(arr,idx)
+        }
+        return arr[idx][0]+arr[idx][1]+arr[idx+1][0]+arr[idx+1][1]//return sum of frame and next frame
+}
+function doubleStrike(arr,idx){
+    if (idx<8){
+        return arr[idx][0]+arr[idx][1]+arr[idx+1][0]+arr[idx+1][1]+arr[idx+2][0]//return sum of frame N and frame N+1 and the first bowl of frame N+2
+    }
+    return  arr[idx][0]+arr[idx][1]+arr[idx+1][0]+arr[idx+1][1]
+       
+}
+
+
+module.exports=getscore
