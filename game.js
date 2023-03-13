@@ -3,7 +3,7 @@
 function getscore(arr){
     let total=0//total score
     for(let i=0;i<arr.length;i++){
-        j=arr[i]//value of frame
+        let j=arr[i]//value of frame
         let s=false//boolean value to see if strike or not
         let add=0
 
@@ -49,6 +49,9 @@ function doubleStrike(arr,idx){
     return  arr[idx][0]+arr[idx][1]+arr[idx+1][0]+arr[idx+1][1]
        
 }
+
+frames = [  [1, 2], [6, 4], [5, 4], [10, 0], [7, 2], [10, 0], [10, 0], [5, 2], [7, 0], [10, 10, 10]]
+console.log(getscore(frames))
 
 
 module.exports=getscore
